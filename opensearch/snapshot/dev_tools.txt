@@ -1,0 +1,23 @@
+# リポジトリ作成
+PUT /_snapshot/my-repository
+{
+  "type": "fs",
+  "settings": {
+    "location": "/usr/share/opensearch/snapshot/data"
+  }
+}
+
+# スナップショット作成
+PUT /_snapshot/my-repository/init
+{
+  "indices": "pokemon"
+}
+
+# スナップショット確認
+GET /_snapshot/my-repository/_all
+
+# スナップショット復元
+POST /_snapshot/my-repository/init/_restore
+{
+  "indices": "pokemon"
+}

@@ -1,0 +1,61 @@
+services:
+  api:
+    build: ./api
+    container_name: pokemon_api
+    tty: true
+    volumes:
+      - ./api:/work
+      # - ./opensearch_client:/api/opensearch_client
+    ports:
+      - 80:80
+
+  api_client:
+    build: ./api_client
+    container_name: pokemon_api_client
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./api_client/www:/var/www
+    tty: true
+
+  opensearch:
+    build: ./opensearch
+    container_name: pokemon_opensearch
+    environment:
+      - cluster.name=docker-cluster
+      - path.repo=/usr/share/opensearch/snapshot/data
+      - node.name=os-node
+      - cluster.initial_master_nodes=os-node
+      - bootstrap.memory_lock=true
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./opensearch/data:/usr/share/opensearch/data
+      - ./opensearch/index:/usr/share/opensearch/index
+      - ./opensearch/snapshot/data:/usr/share/opensearch/snapshot/data
+      - ./opensearch/config/analysis:/usr/share/opensearch/config/analysis
+    ports:
+      - 9200:9200
+
+  opensearch_dashboards:
+    build: ./opensearch_dashboards
+    container_name: pokemon_opensearch_dashboards
+    environment:
+      OPENSEARCH_HOSTS: "https://opensearch:9200"
+    ports:
+      - 5601:5601
+    links:
+      - opensearch
+
+  opensearch_maintenance:
+    build: ./opensearch_maintenance
+    container_name: pokemon_opensearch_maintenance
+    tty: true
+    volumes:
+      - ./opensearch_maintenance:/work

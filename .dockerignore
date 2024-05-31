@@ -1,0 +1,15 @@
+**/__pycache__
+**/.dockerignore
+**/.env
+**/.git
+**/.gitkeep
+**/.gitignore
+**/.project
+**/.settings
+**/.toolstarget
+**/.vs
+**/.vscode
+**/docker-compose*
+**/compose*
+**/Dockerfile*
+README.md

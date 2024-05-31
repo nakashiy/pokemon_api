@@ -1,0 +1,20 @@
+{
+    "name": "FastAPI_devcontainer",
+    "dockerComposeFile": [
+        "../../compose.yml"
+    ],
+    "service": "api",
+    "workspaceFolder": "/work",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "workbench.colorTheme": "Default Dark+"
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.black-formatter"
+            ]
+        }
+    },
+    "shutdownAction": "none"
+}

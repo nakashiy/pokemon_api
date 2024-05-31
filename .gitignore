@@ -1,0 +1,8 @@
+**/__pycache__
+*.pyc
+*.log
+
+opensearch/data/*
+!opensearch/data/.gitkeep
+# opensearch/snapshot/data/*
+# !opensearch/snapshot/data/.gitkeep

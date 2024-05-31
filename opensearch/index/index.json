@@ -1,0 +1,135 @@
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 2,
+      "number_of_replicas": 1
+    },
+    "analysis": {
+      "analyzer": {
+        "index_analyzer": {
+          "type": "custom",
+          "char_filter": [
+            "normalize",
+            "kuromoji_iteration_mark"
+          ],
+          "tokenizer": "ngram_tokenizer",
+          "filter": []
+        },
+        "search_analyzer": {
+          "type": "custom",
+          "char_filter": [
+            "normalize",
+            "kuromoji_iteration_mark"
+          ],
+          "tokenizer": "ngram_tokenizer",
+          "filter": [
+            "my_synonyms"
+          ]
+        }
+      },
+      "char_filter": {
+        "normalize": {
+          "type": "icu_normalizer",
+          "name": "nfkc_cf",
+          "mode": "compose"
+        }
+      },
+      "tokenizer": {
+        "ngram_tokenizer": {
+          "type": "ngram",
+          "min_gram": 1,
+          "max_gram": 1,
+          "token_chars": [
+            "letter",
+            "digit",
+            "punctuation",
+            "symbol"
+          ]
+        }
+      },
+      "filter": {
+        "my_synonyms": {
+          "type": "synonym_graph",
+          "synonyms_path": "analysis/synonym.txt",
+          "updateable": true
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "number": {
+        "type": "integer"
+      },
+      "name": {
+        "type": "text",
+        "analyzer": "index_analyzer",
+        "search_analyzer": "index_analyzer"
+      },
+      "types": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "stats": {
+        "properties": {
+          "hp": {
+            "type": "integer"
+          },
+          "attack": {
+            "type": "integer"
+          },
+          "defense": {
+            "type": "integer"
+          },
+          "special_attack": {
+            "type": "integer"
+          },
+          "special_defense": {
+            "type": "integer"
+          },
+          "speed": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "texts": {
+        "type": "nested",
+        "include_in_parent": true,
+        "properties": {
+          "version": {
+            "type": "text"
+          },
+          "text": {
+            "type": "text",
+            "analyzer": "index_analyzer",
+            "search_analyzer": "search_analyzer"
+          }
+        }
+      },
+      "images": {
+        "properties": {
+          "front_default": {
+            "type": "text"
+          },
+          "back_default": {
+            "type": "text"
+          }
+        }
+      },
+      "deleted_flg": {
+        "type": "boolean"
+      },
+      "updated_time": {
+        "type": "date"
+      }
+    }
+  }
+}

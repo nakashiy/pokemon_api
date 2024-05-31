@@ -1,0 +1,20 @@
+{
+    "name": "OpensearchMaintenance_devcontainer",
+    "dockerComposeFile": [
+        "../../compose.yml"
+    ],
+    "service": "opensearch_maintenance",
+    "workspaceFolder": "/work",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "workbench.colorTheme": "Default Dark+"
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.black-formatter"
+            ]
+        }
+    },
+    "shutdownAction": "none"
+}
