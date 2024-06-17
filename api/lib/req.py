@@ -61,7 +61,7 @@ class SearchRequest(PokemonRequest):
 
     # 条件追加(並び順)
     def _add_sort_condition(self, values):
-        sortable_fields = ["number"]
+        sortable_fields = ["number", "stats.hp", "stats.attack", "stats.defense", "stats.special_attack", "stats.special_defense", "stats.speed", "stats.total"]
         sorts = []
         for value in values:
             # 先頭文字で昇順・降順を判定
